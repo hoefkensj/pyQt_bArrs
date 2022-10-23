@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import inspect
+from inspect import ismethod
 from  PyQt5.QtWidgets import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
 from  PyQt5.QtWidgets import QWidget
 
@@ -31,14 +31,25 @@ def Qt_tools():
 
 def Wgt_Func(fn):
 	def Mtds(key):
-		def clj_Mtds(o):
+		def mtds(o):
 			f={}
 			for n in dir(o[key]):
 				m=getattr(o, n)
 				if callable(m) and '__' not in n:
 					f[n]=m
 			return f
-		return clj_Mtds
+		return mtds
+	def Attr(key):
+		def attr(o):
+			# v={}
+			# for n in dir(o[key]):
+			# 	a=getattr(o, n)
+			# 	if callable(a) and '__' not in n:
+			# 		v[n]=a
+			v={n : getattr(o, n) for n in dir(o[key]) if ismethod(a)}
+			return v
+		return mtds
+
 	f=locals()
 
 	return f[fn]
