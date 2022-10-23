@@ -1,63 +1,15 @@
 #!/usr/bin/env python
-from inspect import ismethod
+
 from  PyQt5.QtWidgets import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
 from  PyQt5.QtWidgets import QWidget
 from lib import gnr
 def qTools():
-	def Layouts():
 
-		l				=		{
-			'H'   :	QHBoxLayout,
-			'V'   : QVBoxLayout,
-			'G'   :	QGridLayout,
-			'F'   :	QFormLayout,
-							}
-		return l
-	def SizePols():
-		from PyQt5.QtWidgets.QSizePolicy import QSizePolicy as QSP
-		p={
-				'P'   : QSP.Preferred,
-				'M'   : QSP.Maximum,
-				'm'   : QSP.Minimum,
-				'E'   :	QSP.Expanding,
-				'mE'  :	QSP.MinimumExpanding,
-				'F'   :	QSP.Fixed,
-			}
-		return p
-	f={}
-	f['l']=Layouts()
-	f['p']=SizePols()
-	return f
-
-def dClass(fn):
-	def Mtds(key):
-		def mtds(o):
-			f={}
-			for n in dir(o[key]):
-				m=getattr(o, n)
-				if callable(m) and '__' not in n:
-					f[n]=m
-			return f
-		return mtds
-	def Attr(key):
-		def attr(o):
-			# v={}
-			# for n in dir(o[key]):
-			# 	a=getattr(o, n)
-			# 	if callable(a) and '__' not in n:
-			# 		v[n]=a
-			v={n : getattr(o, n) for n in dir(o[key]) if ismethod(a)}
-			return v
-		return attr
-
-	f=locals()
-
-	return f[fn]
 
 def wFnx():
 
 def Wgt(**k):
-	QT=qTools()
+
 
 	def Arg(*a, **k):
 		n			= k.get("n")
@@ -68,7 +20,7 @@ def Wgt(**k):
 		return k[a]
 	def props():
 		name 		= Arg('n')
-		layout 	=	QT['l'][Arg('t')].__name__
+		layout 	= QT['l'][Arg('t')].__name__
 		return locals()
 
 	def Atr():
