@@ -48,7 +48,7 @@ def Wgt_Func(fn):
 			# 		v[n]=a
 			v={n : getattr(o, n) for n in dir(o[key]) if ismethod(a)}
 			return v
-		return mtds
+		return attr
 
 	f=locals()
 
