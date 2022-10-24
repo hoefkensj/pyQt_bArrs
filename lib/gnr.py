@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # Auth
 from inspect import ismethod
-
-def Layouts():
+from  PyQt5.QtWidgets import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
+from  PyQt5.QtWidgets  import  QSizePolicy as QSP
+def Layouts(t):
 
 	l				=		{
 		'H'   :	QHBoxLayout,
@@ -10,9 +11,9 @@ def Layouts():
 		'G'   :	QGridLayout,
 		'F'   :	QFormLayout,
 						}
-	return l
+	return l[t]
 def SizePols():
-	from PyQt5.QtWidgets.QSizePolicy import QSizePolicy as QSP
+
 	p={
 			'P'   : QSP.Preferred,
 			'M'   : QSP.Maximum,
@@ -23,7 +24,7 @@ def SizePols():
 		}
 	return p
 
-l=Layouts()
+l=Layouts
 p=SizePols()
 
 def dClass(fn):
@@ -31,30 +32,29 @@ def dClass(fn):
 		def mtds(o):
 			f={}
 			for n in dir(o[key]):
-				m=getattr(o, n)
+				m=getattr(o[key], n)
 				if callable(m) and '__' not in n:
 					f[n]=m
 			return f
 		return mtds
 	def Attr(key):
 		def attr(o):
-			# v={}
-			# for n in dir(o[key]):
-			# 	a=getattr(o, n)
-			# 	if callable(a) and '__' not in n:
-			# 		v[n]=a
-			v={n : getattr(o, n) for n in dir(o[key]) if ismethod(a)}
+			v={}
+			for n in dir(o[key]):
+				a=getattr(o[key], n)
+				if not ismethod(a) and '__' not in n:
+					v[n]=a
 			return v
 		return attr
 	f=locals()
 	return f[fn]
 def Mtd():
 	def mtd(w):
-		m=qTools.dClass('Mtds')['Wgt'](w)
+		m=dClass('Mtds')('Wgt')(w)
 		return m
 	return mtd
 def Atr():
 	def atr(w):
-		a=qTools.dClass('Attr')['Wgt'](w)
+		a=dClass('Attr')('Wgt')(w)
 		return a
 	return atr
