@@ -3,13 +3,9 @@
 from  PyQt5.QtWidgets import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
 from  PyQt5.QtWidgets import QWidget
 from lib import gnr
-def qTools():
 
-
-def wFnx():
 
 def Wgt(**k):
-
 
 	def Arg(*a, **k):
 		n			= k.get("n")
@@ -20,12 +16,17 @@ def Wgt(**k):
 		return k[a]
 	def props():
 		name 		= Arg('n')
-		layout 	= QT['l'][Arg('t')].__name__
+		layout 	= gnr.l[Arg('t')].__name__
 		return locals()
 
+	def Mtd():
+		mtd=gnr.Mtd()
+		m=mtd(w)
+		return m
 	def Atr():
-		a=dClass('Attr')['Wgt'](w)
-		return  a
+		atr=gnr.Atr()
+		a=atr(w)
+		return a
 
 
 
@@ -36,21 +37,19 @@ def Wgt(**k):
 			init()
 			return init
 
-		w= {}
-		w['Wgt']			=	QWidget()
-		w['Arg']			=	Arg()
-		w['Prp']			= props()
-		w['Mtd']			=	Mtd()
-		w['Atr']			= Atr()
-		w['Lay']			= Layout()
-		w['Init']			=	Init()
-		return w
+	w= {}
+	w['Wgt']			=	QWidget()
+	w['Arg']			=	Arg
+	w['Prp']			= props()
+	w['Mtd']			=	Mtd()
+	w['Atr']			= Atr()
+	w['Lay']			= Layout()
+	w['Init']			=	Init()
+	return w
 
 def Layout():
 
-	def Mtd():
-		f=dClass('Mtds')['Lay'](l)
-		return f
+
 	def Init():
 		def init():
 			l['Mtd']['setObjectName'](f'lay_{Arg("n")}')
