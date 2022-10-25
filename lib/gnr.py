@@ -26,15 +26,14 @@ def SizePols():
 l=Layouts
 p=SizePols()
 
-def dClass(fn):
-	def Mtds(o):
+def Mtds(o):
 		f={}
-		for n in dir(o['Wgt']):
-			m=getattr(o['Wgt'], n)
+		for n in dir(o):
+			m=getattr(o, n)
 			if callable(m) and '__' not in n:
 				f[n]=m
 		return f
-	def Attr(key):
+def Attr(key):
 		def attr(o):
 			v={}
 			for n in dir(o[key]):
@@ -44,16 +43,13 @@ def dClass(fn):
 			return v
 		return attr
 
-	return f[fn]
-
-
 def Mtd():
 	def mtd(w):
-		m=dClass('Mtds')('Wgt')(w)
+		m=Mtds(w)
 		return m
 	return mtd
 def Atr():
 	def atr(w):
-		a=dClass('Attr')('Wgt')(w)
+		a=Attr(w)
 		return a
 	return atr

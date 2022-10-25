@@ -15,7 +15,7 @@ def Wgt(**k):
 		a['m']			=	K.get("m") or [0,0,0,0]
 		a['k']			=	{**k}
 		def arg(q):
-			r=a['q']
+			r=a[q]
 			return r
 		return arg
 
@@ -23,17 +23,16 @@ def Wgt(**k):
 		e={}
 		return e
 
-
 	def Mtd():
 		mtd=gnr.Mtd()
-		return mtd(w)
+		return mtd(Wgt)
 
 	def Atr():
 		atr=gnr.Atr()
-		return atr(w)
+		return atr(Wgt)
 
 	def Lay():
-		l = Layout(w=w,**k) if Arg('t') else None
+		l = Layout(w=W,**k) if A('t') else None
 		return l
 
 	def Fnx():
@@ -45,76 +44,92 @@ def Wgt(**k):
 		return f
 
 	def Init():
-		def init():
-			w['Mtd']['setObjectName'](f'wgt_{Arg("n")}')
-			w['Mtd']['setContentsMargins'](*Arg('m'))
+		Mt['setObjectName'](f'wgt_{A("n")}')
+		Mt['setContentsMargins'](*A('m'))
 
-		init()
-		return init
 
-	Arg=Arg(**k)
-	Elements=Elements()
-	Prp=Props()
+
+	W	=		QWidget()
+	A	=		Arg(**k)
+	El=Elements()
+	Mt	=   Mtd()
+	At	=   Atr()
+	L	=   Lay()
+	Fn	=   Fnx()
+	# Init()
+
 	w= {}
-	w['Wgt']			=	QWidget()
-	w['Arg']			= Arg
-	w['Elements']	= Elements
-	w['Prp']			= Props
-	w['Mtd']			=	Mtd()
-	w['Atr']			= Atr()
-	w['Lay']			= Lay()
-	w['Fnx']			=	Fnx()
-	w['Init']			=	Init()
+	w['Wgt']			=	W
+	w['Arg']			= A
+	w['Elements']	= El
+	w['Mtd']			=	Mt
+	w['Atr']			= At
+	w['Lay']			= L
+	w['Fnx']			=	Fn
+
 	return w
 
 def Layout(**k):
-	def Arg(*a):
-		arg={}
-		arg['n']			= k.get("n")
-		arg['t']			= k.get("t")
-		arg['m']			=	k.get("m") or [0,0,0,0]
-		arg['l']			=	k.get("l")
-		arg['w']			=	k.get("w")
-		arg['k']			=	k
+	def Arg(**K):
+		a={}
+		a['n']			= K.get('n')
+		a['t']			= K.get('t')
+		a['m']			=	K.get('m') or [0,0,0,0]
+		a['w']			=	K.get('w')
+		a['k']			=	{**k}
+		def arg(q):
+			r=a[q]
+			return r
 		return arg
-	def Lay():
-		type=	Arg('t')
-		wgt=Arg('w')
-		lay=gnr.Layouts(type)
-		r=lay(wgt['Wgt'])
-		return r
 
-	def Props():
-		name 		= Arg('n')
-		layout 	= gnr.Layouts(Arg('t')).__name__
-		return locals()
+	def Lay():
+		type=	A('t')
+		wgt=A('w')
+		lay=gnr.Layouts(type)
+		r=lay(wgt)
+		return r
 
 	def Mtd():
 		mtd=gnr.Mtd()
-		return mtd(l)
+		return mtd(L)
 
 	def Atr():
 		atr=gnr.Atr()
-		return atr(l)
+		return atr(L)
 
 	def Add():
-		return  l['Mtd']['addWidget']
+		return  Mt['addWidget']
 
 	def Init():
 		def init():
-			l['Mtd']['setObjectName'](f'lay_{Arg("n")}')
-			l['Mtd']['setContentsMargins'](*Arg('m'))
+			Mt['setObjectName'](f'lay_{A("n")}')
+			Mt['setContentsMargins'](*A('m'))
 		init()
 		return init
 
+	A  =  Arg(**k)
+	L  = 	Lay()
+
+	Mt  = 	Mtd()
+	At  =  Atr()
+	Ad  =  Add()
+	In = 	Init()
+
 	l= {}
-	l['Wgt']			=	Lay()
-	l['Arg']			= Arg()
-	l['Prp']			= Props()
-	l['Mtd']			=	Mtd()
-	l['Atr']			= Atr()
-	l['Add']			= Add()
-	l['Init']			=	Init()
+	l['Lay']			=	L
+	l['Arg']			= A
+	l['Mtd']			=	Mt
+	l['Atr']			= At
+	l['Add']			= Ad
+	l['Init']			=	In
+
+
+
+
+
+
+
+
 	return l
 
 
