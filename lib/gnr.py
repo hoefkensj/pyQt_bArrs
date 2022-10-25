@@ -4,7 +4,6 @@ from inspect import ismethod
 from  PyQt5.QtWidgets import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
 from  PyQt5.QtWidgets  import  QSizePolicy as QSP
 def Layouts(t):
-
 	l				=		{
 		'H'   :	QHBoxLayout,
 		'V'   : QVBoxLayout,
@@ -28,15 +27,13 @@ l=Layouts
 p=SizePols()
 
 def dClass(fn):
-	def Mtds(key):
-		def mtds(o):
-			f={}
-			for n in dir(o[key]):
-				m=getattr(o[key], n)
-				if callable(m) and '__' not in n:
-					f[n]=m
-			return f
-		return mtds
+	def Mtds(o):
+		f={}
+		for n in dir(o['Wgt']):
+			m=getattr(o['Wgt'], n)
+			if callable(m) and '__' not in n:
+				f[n]=m
+		return f
 	def Attr(key):
 		def attr(o):
 			v={}
@@ -46,8 +43,10 @@ def dClass(fn):
 					v[n]=a
 			return v
 		return attr
-	f=locals()
+
 	return f[fn]
+
+
 def Mtd():
 	def mtd(w):
 		m=dClass('Mtds')('Wgt')(w)

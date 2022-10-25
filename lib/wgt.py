@@ -1,31 +1,28 @@
 #!/usr/bin/env python
 
 
-from  PyQt5.QtWidgets import QWidget,QApplication
+from  PyQt5.QtWidgets import QWidget,QApplication,QLineEdit
 import gnr
+
 
 
 def Wgt(**k):
 
-
-
-	def Arg(a):
-		arg={}
-		arg['n']			= k.get("n")
-		arg['t']			= k.get("t")
-		arg['m']			=	k.get("m") or [0,0,0,0]
-		arg['l']			=	k.get("l")
-		arg['w']			=	k.get("w")
-		r = arg.get(a)
-		return r
+	def Arg(**K):
+		a={}
+		a['n']			= K.get("n")
+		a['t']			= K.get("t")
+		a['m']			=	K.get("m") or [0,0,0,0]
+		a['k']			=	{**k}
+		def arg(q):
+			r=a['q']
+			return r
+		return arg
 
 	def Elements():
 		e={}
 		return e
-	def Props():
-		name 		= Arg(a='n')
-		layout 	= gnr.Layouts(Arg('t'))
-		return locals()
+
 
 	def Mtd():
 		mtd=gnr.Mtd()
@@ -36,28 +33,33 @@ def Wgt(**k):
 		return atr(w)
 
 	def Lay():
-		l = Layout(w=w,**k) if Arg(a='t') else None
+		l = Layout(w=w,**k) if Arg('t') else None
 		return l
 
 	def Fnx():
 		def Add(i):
 			w['Lay']['Add'](i['Wgt'])
-			w['Elements'][i['Prp']['name']]= i
+			w['Elements']['n']= i
 		f={}
 		f['Add'] = Add
 		return f
+
 	def Init():
 		def init():
-			w['Mtd']['setObjectName'](f'wgt_{Arg(a="n")}')
-			w['Mtd']['setContentsMargins'](*Arg(a='m'))
+			w['Mtd']['setObjectName'](f'wgt_{Arg("n")}')
+			w['Mtd']['setContentsMargins'](*Arg('m'))
 
 		init()
 		return init
 
+	Arg=Arg(**k)
+	Elements=Elements()
+	Prp=Props()
 	w= {}
 	w['Wgt']			=	QWidget()
-	w['Elements']	= Elements()
-	w['Prp']			= Props()
+	w['Arg']			= Arg
+	w['Elements']	= Elements
+	w['Prp']			= Props
 	w['Mtd']			=	Mtd()
 	w['Atr']			= Atr()
 	w['Lay']			= Lay()
@@ -66,19 +68,24 @@ def Wgt(**k):
 	return w
 
 def Layout(**k):
-	def Arg(a):
+	def Arg(*a):
 		arg={}
 		arg['n']			= k.get("n")
 		arg['t']			= k.get("t")
 		arg['m']			=	k.get("m") or [0,0,0,0]
 		arg['l']			=	k.get("l")
 		arg['w']			=	k.get("w")
-		r = arg.get(a)
-		return r
+		arg['k']			=	k
+		return arg
 	def Lay():
-		lay=gnr.Layouts(Arg('t'))
+		type=	Arg('t')
+		wgt=Arg('w')
+		lay=gnr.Layouts(type)
+		r=lay(wgt['Wgt'])
+		return r
+
 	def Props():
-		name 		= Arg(a='n')
+		name 		= Arg('n')
 		layout 	= gnr.Layouts(Arg('t')).__name__
 		return locals()
 
@@ -95,13 +102,14 @@ def Layout(**k):
 
 	def Init():
 		def init():
-			l['Mtd']['setObjectName'](f'lay_{Arg(a="n")}')
-			l['Mtd']['setContentsMargins'](*Arg(a='m'))
+			l['Mtd']['setObjectName'](f'lay_{Arg("n")}')
+			l['Mtd']['setContentsMargins'](*Arg('m'))
 		init()
 		return init
 
 	l= {}
-	l['Wgt']			=	gnr.Layouts(Arg('t'))(Arg('w')['Wgt'])
+	l['Wgt']			=	Lay()
+	l['Arg']			= Arg()
 	l['Prp']			= Props()
 	l['Mtd']			=	Mtd()
 	l['Atr']			= Atr()
@@ -109,6 +117,28 @@ def Layout(**k):
 	l['Init']			=	Init()
 	return l
 
+
+def lEdit(**k):
+	n,w,h,ro=[*[0]*4]
+	def Arg():
+		nonlocal n,w,h,ro
+		n		=	k['n']				=	k.get('n')
+		w		=	k['w']				= k.get('w')	or 20
+		h		=	k['h']				= k.get('h')	or 20
+		ro	=	k['ro']				= k.get('ro')	or False
+
+		return k
+
+
+
+
+	l={}
+	l['Wgt'] 		=  QLineEdit()
+	l['Arg'] = Arg()
+
+
+
+	return l
 if __name__ == '__main__':
 	import sys
 	def Tree(*a,**k):
@@ -127,24 +157,32 @@ if __name__ == '__main__':
 	def App():
 		from sys import argv
 		a = {}
-		a['QtApp'] 		= QApplication(argv)
-		a['Clip']			= a['QtApp'].clipboard()
+		a['QApp'] 		= QApplication(argv)
+		a['Clip']			= a['QApp'].clipboard()
 
 		return a
 	GUI={}
 	GUI['App']=App()
 	GUI['Main']	=	Wgt(n='Qt5',t='V')
 
-	test_wgt=Wgt(n='test',t='V')
+	test_wgt=lEdit(n='test')
 	GUI['Main']['Fnx']['Add'](test_wgt)
 
+
+
+
+
+
+	GUI['Main']['Mtd']['show']()
 	Tree(d=GUI)
-	#
-	# for k in GUI:
-	# 	print(k)
-	# 	if isinstance(GUI.get(k),dict):
-	# 		for l in GUI.get(k):
-	# 			print(l,GUI[k].get(l))
-				# if isinstance(GUI[k].get(l),dict):
-				# 	for m in GUI[k].get(l):
-				# 		print(m,GUI[k][l])
+	sys.exit(GUI['App']['QApp'].exec())
+
+
+	for k in GUI:
+		print(k)
+		if isinstance(GUI.get(k),dict):
+			for l in GUI.get(k):
+				print(l,GUI[k].get(l))
+				if isinstance(GUI[k].get(l),dict):
+					for m in GUI[k].get(l):
+						print(m,GUI[k][l])
